@@ -7,7 +7,7 @@
     <style>
         * { box-sizing: border-box; font-family: 'Roboto', Arial, sans-serif; }
         body { margin: 0; padding: 0; background-color: #121417; color: #f0f0f0; }
-        
+
         /* EKRAN LOGOWANIA */
         #login-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -25,12 +25,13 @@
             width: 100%; padding: 14px; margin-top: 25px; background: #c9302c;
             color: white; border: none; font-weight: bold; font-size: 16px; border-radius: 5px; cursor: pointer;
         }
+        #login-screen button:active { background: #a0221e; }
 
-        /* GÓRNE PASKI SWD-PSP */
-        .top-bar-1 { background-color: #8b0000; color: white; text-align: center; font-size: 12px; padding: 5px; font-weight: bold; letter-spacing: 0.5px; }
+        /* GÓRNE PASKI */
+        .top-bar-1 { background-color: #8b0000; color: white; text-align: center; font-size: 12px; padding: 6px; font-weight: bold; letter-spacing: 0.5px; }
         .top-bar-2 { background-color: #212529; color: #ff6b6b; font-size: 11px; padding: 6px 10px; border-bottom: 1px solid #343a40; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        
-        /* PRZYCISK STATUSU WOZU */
+
+        /* STATUS WOZU */
         .status-btn {
             background-color: #2e7d32; color: #fff; font-weight: bold; font-size: 14px;
             padding: 16px 12px; margin: 8px 6px 4px 6px; border: none; width: calc(100% - 12px);
@@ -41,7 +42,7 @@
         .status-btn.powrot { background-color: #0275d8; }
         .status-btn.awaria { background-color: #495057; }
 
-        /* PRZYCISK ALARM / WSPARCIE */
+        /* ALARM / MAYDAY */
         .panic-btn {
             background-color: #b71c1c; color: white; font-weight: bold; font-size: 14px;
             padding: 12px; margin: 4px 6px 8px 6px; border: 2px solid #ff5252; width: calc(100% - 12px);
@@ -49,7 +50,7 @@
         }
         .panic-btn:active { background-color: #7f0000; }
 
-        /* SIATKA KAFELKÓW (Więcej opcji w tablecie) */
+        /* SIATKA KAFELKÓW */
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 6px; }
         .tile {
             border: none; color: white; font-weight: bold; font-size: 12px; text-transform: uppercase;
@@ -76,7 +77,7 @@
         input, select, textarea { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #343a40; background: #0d0f12; color: white; font-size: 14px; border-radius: 3px; }
         .submit-btn { width: 100%; padding: 14px; margin-top: 20px; background: #2e7d32; color: white; border: none; font-weight: bold; font-size: 15px; cursor: pointer; border-radius: 3px; }
 
-        /* LISTY ELEMENTÓW W MODALACH */
+        /* KARTY */
         .info-card { background: #212529; border-left: 4px solid #c9302c; padding: 10px; margin-bottom: 8px; font-size: 13px; }
         .history-item { background: #212529; border-left: 4px solid #3a6bc4; padding: 10px; margin-bottom: 10px; font-size: 13px; }
         .history-time { font-size: 11px; color: #adb5bd; margin-bottom: 4px; }
@@ -87,15 +88,15 @@
 
     <!-- EKRAN LOGOWANIA -->
     <div id="login-screen">
-        <h2>SWD-PSP | Tablet JRG 1 Szczecin</h2>
+        <h2>SWD-PSP | JRG 1 SZCZECIN</h2>
         <p class="sub">System Wspomagania Decyzji Państwowej Straży Pożarnej</p>
-        
+
         <label>Numer służbowy dowódcy:</label>
         <input type="text" id="login_nr" placeholder="np. 101" value="101">
-        
+
         <label>PIN:</label>
         <input type="password" id="login_pin" placeholder="******" value="1234">
-        
+
         <label>Wybierz wóz bojowy (Zastęp):</label>
         <select id="login_woz">
             <option value="301[Z]21 (GBA 2,5/24)">301[Z]21 - GBA (Pierwszowyjazdowy)</option>
@@ -104,14 +105,14 @@
             <option value="215/25 (GCBA JRG 1)">215/25 - GCBA (Zastęp)</option>
         </select>
 
-        <button type="button" onclick="zaloguj()">ZALOGUJ DO TABLETU</button>
+        <button type="button" id="btn_zaloguj">ZALOGUJ DO TABLETU</button>
         <p id="login_blad" style="color: #ff6b6b; text-align: center; font-weight: bold; display: none; margin-top: 15px;">Błędny numer lub PIN!</p>
     </div>
 
-    <!-- EKRAN GŁÓWNY TABLETU PSP -->
+    <!-- EKRAN GŁÓWNY TABLETU -->
     <div class="top-bar-1">SKKM SZCZECIN | JRG 1 (TABLET AKTYWNY)</div>
     <div class="top-bar-2" id="top_info">ZALOGUJ SIĘ DO SYSTEMU</div>
-    
+
     <button id="statusBtn" class="status-btn" onclick="zmienStatus()">
         STATUS: GOTOWY W KOSZARACH
     </button>
@@ -136,7 +137,7 @@
 
     <div class="bottom-bar">
         <button class="btn-small" onclick="location.reload()">ZMIEŃ WÓZ / WYLOGUJ</button>
-        <button class="btn-small btn-info" onclick="alert('SWD-PSP Tablet v2.0 - JRG 1 Szczecin')">i</button>
+        <button class="btn-small btn-info" onclick="alert('SWD-PSP Tablet v2.1 - JRG 1 Szczecin')">i</button>
     </div>
 
     <!-- PANEL: DYSPONOWANIE -->
@@ -166,16 +167,16 @@
 
     <!-- PANEL: SIŁY I ŚRODKI -->
     <div id="modal-sily" class="modal">
-        <div class="modal-header"><span>ZAPOTREBOWANIE NA SIŁY I ŚRODKI</span><button class="close-btn" onclick="zamknijOkna()">X</button></div>
+        <div class="modal-header"><span>ZAPOTRZEBOWANIE NA SIŁY I ŚRODKI</span><button class="close-btn" onclick="zamknijOkna()">X</button></div>
         <label>Dysponuj dodatkowo:</label>
         <select id="s_kogo">
             <option value="🚒 Dodatkowy zastęp PSP (GCBA / GBA)">🚒 Dodatkowy zastęp PSP (GCBA / GBA)</option>
-            <option value="🪜 Drabina / Podnośnik mechaniczny (SCD)">🪜 Drabina mechaniczna (SCD-37)</option>
+            <option value="🪜 Drabina mechaniczna (SCD-37)">🪜 Drabina mechaniczna (SCD-37)</option>
             <option value="🚑 Zespół Ratownictwa Medycznego (PRM)">🚑 Zespół Ratownictwa Medycznego (PRM)</option>
             <option value="🚓 Patrol Policji (Zabezpieczenie)">🚓 Patrol Policji (Zabezpieczenie)</option>
             <option value="⚡ Pogotowie Energetyczne / Gazowe">⚡ Pogotowie Energetyczne / Gazowe</option>
         </select>
-        <label>Cel wezwania / Sytuacja:</label><input type="text" id="s_powod" placeholder="np. Brak wody, potrzebny dowożenie">
+        <label>Cel wezwania / Sytuacja:</label><input type="text" id="s_powod" placeholder="np. Brak wody, potrzebne dowożenie">
         <button class="submit-btn" onclick="wyslijSily()">WYŚLIJ ZAPOTRZEBOWANIE</button>
     </div>
 
@@ -190,8 +191,8 @@
     <!-- PANEL: PROCEDURY -->
     <div id="modal-procedury" class="modal">
         <div class="modal-header"><span>SZYBKIE PROCEDURY RATOWNICZE</span><button class="close-btn" onclick="zamknijOkna()">X</button></div>
-        <div class="info-card"><b>Pożar wewnętrzny (Flashover)</b><br>• Kontrola temperatury drzwi przed wejściem<br>• Chłodzenie gazów pożarowych (półkuliste prądy wody)</div>
-        <div class="info-card"><b>Wypadek drogowy (RT)</b><br>• Zabezpieczenie miejsca, odcięcie prądu w aucie<br>• Stabilizacja pojazdu klinami, dostęp do poszkodowanych</div>
+        <div class="info-card"><b>Pożar wewnętrzny (Flashover)</b><br>• Kontrola temperatury drzwi przed wejściem<br>• Chłodzenie gazów pożarowych</div>
+        <div class="info-card"><b>Wypadek drogowy (RT)</b><br>• Zabezpieczenie miejsca, odcięcie prądu w aucie<br>• Stabilizacja pojazdu klinami</div>
     </div>
 
     <!-- PANEL: RAPORT -->
@@ -214,17 +215,23 @@
 
     <!-- PANEL: HISTORIA -->
     <div id="modal-historia" class="modal">
-        <div class="modal-header"><span>HISTORIA AKCI Z SESJI</span><button class="close-btn" onclick="zamknijOkna()">X</button></div>
+        <div class="modal-header"><span>HISTORIA AKCJI Z SESJI</span><button class="close-btn" onclick="zamknijOkna()">X</button></div>
         <div id="lista-historii"></div>
         <button class="clear-btn" onclick="wyczyscHistorie()">WYCZYŚĆ HISTORIĘ</button>
     </div>
 
     <script>
+        // ==========================================
+        // 1. BAZA STRAŻAKÓW (NUMER I PIN)
+        // ==========================================
         const STRAZACY = {
             "101": { pin: "0000", nazwa: "asp. Kowalski" },
             "102": { pin: "0000", nazwa: "ogn. Nowak" }
         };
 
+        // ==========================================
+        // 2. LINKI DO WEBHOOKÓW DISCORD (W CUDZYSŁOWACH)
+        // ==========================================
         const WEBHOOK_STATUSY = "https://discord.com/api/webhooks/1569040236401659917/8i05NCXDJBRz_Qfk88nicMhCsMhzhLylZM30BA8lcitwUfI47Cc62gZq_MGZnuDDZUpQ";
         const WEBHOOK_DYSPONOWANIE = "https://discord.com/api/webhooks/1569040236401659917/8i05NCXDJBRz_Qfk88nicMhCsMhzhLylZM30BA8lcitwUfI47Cc62gZq_MGZnuDDZUpQ";
         const WEBHOOK_MELDUNKI = "https://discord.com/api/webhooks/1569040236401659917/8i05NCXDJBRz_Qfk88nicMhCsMhzhLylZM30BA8lcitwUfI47Cc62gZq_MGZnuDDZUpQ";
@@ -233,9 +240,164 @@
         let aktualnyStrazak = "";
         let aktualnyWoz = "";
 
+        document.getElementById('btn_zaloguj').addEventListener('click', zaloguj);
+
         function zagrajSyrene() {
             try {
                 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                let playTone = (czas, freq) => {
+                const playTone = (czas, freq) => {
                     setTimeout(() => {
-                        let osc
+                        const osc = audioCtx.createOscillator();
+                        const gain = audioCtx.createGain();
+                        osc.type = "sawtooth";
+                        osc.frequency.value = freq;
+                        osc.connect(gain);
+                        gain.connect(audioCtx.destination);
+                        osc.start();
+                        gain.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.25);
+                        osc.stop(audioCtx.currentTime + 0.25);
+                    }, czas);
+                };
+                playTone(0, 750);
+                playTone(300, 950);
+                playTone(600, 750);
+            } catch (e) {}
+        }
+
+        function zaloguj() {
+            const nr = document.getElementById('login_nr').value.trim();
+            const pin = document.getElementById('login_pin').value.trim();
+            const woz = document.getElementById('login_woz').value;
+            const blad = document.getElementById('login_blad');
+
+            if (STRAZACY[nr] && STRAZACY[nr].pin === pin) {
+                aktualnyStrazak = `${STRAZACY[nr].nazwa} [${nr}]`;
+                aktualnyWoz = woz;
+
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('top_info').innerText = `DOWÓDCA: ${aktualnyStrazak} | WÓZ: ${aktualnyWoz}`;
+
+                document.getElementById('d_woz').value = aktualnyWoz;
+                document.getElementById('m_kdr').value = `${aktualnyStrazak} (${aktualnyWoz})`;
+                document.getElementById('r_woz').value = aktualnyWoz;
+                blad.style.display = 'none';
+            } else {
+                blad.style.display = 'block';
+            }
+        }
+
+        let statusIndex = 0;
+        const statusy = [
+            { text: "STATUS: GOTOWY W KOSZARACH", cls: "", discord: "🟢 GOTOWY W KOSZARACH" },
+            { text: "STATUS: WYJAZD / W DRODZE", cls: "wyjazd", discord: "🔴 WYJAZD / W DRODZE" },
+            { text: "STATUS: DZIAŁANIA NA MIEJSCU", cls: "miejsce", discord: "🟡 NA MIEJSCU ZDARZENIA" },
+            { text: "STATUS: POWRÓT DO KOSZAR", cls: "powrot", discord: "🔵 POWRÓT DO KOSZAR" },
+            { text: "STATUS: NIEDYSPONOWANY", cls: "awaria", discord: "⚫ NIEDYSPONOWANY" }
+        ];
+
+        function zmienStatus() {
+            statusIndex = (statusIndex + 1) % statusy.length;
+            const btn = document.getElementById('statusBtn');
+            const s = statusy[statusIndex];
+            btn.innerText = s.text;
+            btn.className = "status-btn " + s.cls;
+
+            if (aktualnyStrazak) {
+                wyslijDoDiscordaTych(WEBHOOK_STATUSY, `🚒 **STATUS ZASTĘPU**\n• **Wóz:** ${aktualnyWoz}\n• **Dowódca:** ${aktualnyStrazak}\n• **Status:** **${s.discord}**`, false);
+            }
+        }
+
+        function wyslijAlarm() {
+            if (!aktualnyStrazak) return;
+            if (confirm("Wysłać pilny alarm MAYDAY do SKKM?")) {
+                wyslijDoDiscordaTych(WEBHOOK_ALARM, `🚨🚨 **MAYDAY! PILNE WSPARCIE DLA ZASTĘPU!** 🚨🚨\n• **Wóz:** ${aktualnyWoz}\n• **Dowódca:** ${aktualnyStrazak}`, false);
+                alert("Wysłano alarm!");
+            }
+        }
+
+        function otworzOkno(nazwa) {
+            zamknijOkna();
+            if (nazwa === 'historia') pokazHistorie();
+            document.getElementById('modal-' + nazwa).classList.add('active');
+        }
+
+        function zamknijOkna() {
+            document.querySelectorAll('.modal').forEach(m => m.classList.remove('active'));
+        }
+
+        function wyslijDoDiscorda(webhookUrl, tekst) {
+            wyslijDoDiscordaTych(webhookUrl, tekst, true);
+        }
+
+        function wyslijDoDiscordaTych(webhookUrl, tekst, zamknij) {
+            if (webhookUrl.includes("TUTAJ_LINK")) {
+                if (zamknij) {
+                    alert('Zapisano lokalnie (brak linku Webhook w kodzie).');
+                    zamknijOkna();
+                }
+                return;
+            }
+            fetch(webhookUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ content: tekst })
+            }).then(() => {
+                if (zamknij) {
+                    alert('Wysłano do SKKM!');
+                    zamknijOkna();
+                }
+            }).catch(err => console.error(err));
+        }
+
+        function wyslijDysponowanie() {
+            const rodzaj = document.getElementById('d_rodzaj').value;
+            const adres = document.getElementById('d_adres').value;
+            const opis = document.getElementById('d_opis').value;
+            if (!adres) { alert('Wpisz adres!'); return; }
+            zapiszHistorie(rodzaj, `${aktualnyWoz} -> <b>${adres}</b> (${opis})`);
+            wyslijDoDiscorda(WEBHOOK_DYSPONOWANIE, `🚒 **WYJAZD ZASTĘPU**\n• **Wóz:** ${aktualnyWoz}\n• **Zdarzenie:** ${rodzaj}\n• **Adres:** ${adres}\n• **Opis:** ${opis}`);
+        }
+
+        function wyslijMeldunek() {
+            const tresc = document.getElementById('m_tresc').value;
+            if (!tresc) { alert('Wpisz meldunek!'); return; }
+            zapiszHistorie('MELDUNEK', tresc);
+            wyslijDoDiscorda(WEBHOOK_MELDUNKI, `📻 **MELDUNEK KDR**\n• **Zastęp:** ${aktualnyWoz} (${aktualnyStrazak})\n• **Treść:** ${tresc}`);
+        }
+
+        function wyslijSily() {
+            const kogo = document.getElementById('s_kogo').value;
+            const powod = document.getElementById('s_powod').value;
+            wyslijDoDiscorda(WEBHOOK_MELDUNKI, `📢 **WEZWANIE SIŁ I ŚRODKÓW**\n• **Zgłasza:** ${aktualnyWoz}\n• **Potrzebne wsparcie:** **${kogo}**\n• **Powód:** ${powod}`);
+        }
+
+        function wyslijRaport() {
+            const opis = document.getElementById('r_opis').value;
+            const woda = document.getElementById('r_woda').value;
+            if (!opis) { alert('Wpisz podsumowanie!'); return; }
+            zapiszHistorie('ZAKOŃCZENIE', `${opis} (Woda: ${woda})`);
+            wyslijDoDiscorda(WEBHOOK_MELDUNKI, `✅ **RAPORT KOŃCOWY**\n• **Zastęp:** ${aktualnyWoz}\n• **Podsumowanie:** ${opis}\n• **Zużycie:** ${woda}`);
+        }
+
+        function zapiszHistorie(typ, opis) {
+            const hist = JSON.parse(localStorage.getItem('psp_historia') || '[]');
+            const czas = new Date().toLocaleTimeString('pl-PL', { hour: '2-digit', minute: '2-digit' });
+            hist.unshift({ czas, typ, opis });
+            if (hist.length > 10) hist.pop();
+            localStorage.setItem('psp_historia', JSON.stringify(hist));
+        }
+
+        function pokazHistorie() {
+            const kont = document.getElementById('lista-historii');
+            const hist = JSON.parse(localStorage.getItem('psp_historia') || '[]');
+            if (hist.length === 0) { kont.innerHTML = '<p style="text-align:center; color:#888;">Brak historii.</p>'; return; }
+            kont.innerHTML = hist.map(h => `<div class="history-item"><div class="history-time">${h.czas} | <b>${h.typ}</b></div><div>${h.opis}</div></div>`).join('');
+        }
+
+        function wyczyscHistorie() {
+            localStorage.removeItem('psp_historia');
+            pokazHistorie();
+        }
+    </script>
+</body>
+</html>
